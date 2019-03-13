@@ -76,7 +76,7 @@ def test_revenue
   @dock.rent(@kayak_1, @patrick)
 
   @dock.rent(@kayak_2, @patrick)
-  @dock.rent(@kayak_2, @patrick)
+
   @dock.log_hour
   @dock.rent(@canoe, @patrick)
   @dock.log_hour
@@ -88,11 +88,17 @@ def test_revenue
   @dock.rent(@sup_1, @eugene)
   @dock.rent(@sup_2, @eugene)
   5.times{@dock.log_hour}
-  binding.pry
   @dock.return(@sup_1)
-  binding.pry
   @dock.return(@sup_2)
   assert_equal 195, @dock.revenue
+end
+
+def test_no_double_renting
+  @dock.rent(@kayak_1, @patrick)
+
+  @dock.rent(@kayak_1, @eugene)
+  assert_equal @patrick, @dock.rental_log[@kayak_1]
+
 end
 
 end

@@ -8,8 +8,10 @@ class Dock
   end
 
   def rent(boat, renter)
-    boat.go_out
-    @rental_log[boat] = renter
+    if boat.returned?
+      boat.go_out
+      @rental_log[boat] = renter
+    end
   end
 
   def charge(boat)
@@ -23,7 +25,7 @@ class Dock
   end
 
   def log_hour
-    @rental_log.each_key{|boat| boat.add_hour if !boat.returned}
+    @rental_log.each_key{|boat| boat.add_hour if !boat.returned?}
   end
 
   def return(boat)
